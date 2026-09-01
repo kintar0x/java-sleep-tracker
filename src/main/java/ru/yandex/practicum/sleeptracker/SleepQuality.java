@@ -5,7 +5,7 @@ public enum SleepQuality {
     NORMAL,
     BAD;
 
-    public static SleepQuality fromString(String value) throws IllegalArgumentException{
+    public static SleepQuality fromString(String value) throws IllegalArgumentException {
         if (value == null || value.isBlank()) {
             throw new IllegalArgumentException("Качество сна не может быть пустым");
         }
