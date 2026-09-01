@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.format.DateTimeParseException;
-import java.util.*;
+import java.util.List;
 import java.util.function.Function;
 
 public class SleepTrackerApp {
@@ -20,9 +20,8 @@ public class SleepTrackerApp {
 
     public static void main(String[] args) {
         try {
-            List<String> lines = Files.readAllLines(
-                    Paths.get("C:\\Users\\rtgbh\\IdeaProjects\\java-sleep-tracker\\src\\main\\resources\\sleep_log.txt")
-            );
+            String path = "C:/Users/rtgbh/IdeaProjects/java-sleep-tracker/src/main/resources/sleep_log.txt";
+            List<String> lines = Files.readAllLines(Paths.get(path));
 
             List<SleepingSession> sessions = SleepingSession.fromLines(lines);
             if (sessions.isEmpty()) {

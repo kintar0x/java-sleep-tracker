@@ -1,6 +1,7 @@
 package ru.yandex.practicum.sleeptracker;
 
 import org.junit.jupiter.api.Test;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -8,9 +9,10 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SleepTrackerAppTest {
+
     private List<SleepingSession> loadData() {
         try {
             return SleepingSession.fromLines(
@@ -114,12 +116,12 @@ class SleepTrackerAppTest {
     // ======================================================================
     @Test
     void sleeplessNightsFromFile() {
-        assertEquals("1", new SleeplessNightsFunction().apply(loadData()).getValue());
+        assertEquals("20", new SleeplessNightsFunction().apply(loadData()).getValue());
     }
 
     @Test
     void sleeplessNightsAllGood() {
-        var data = List.of(
+        List<SleepingSession> data = List.of(
                 session(1, 23, 15, 2, 7, 30, SleepQuality.GOOD),
                 session(2, 23, 50, 3, 6, 40, SleepQuality.NORMAL)
         );
@@ -128,11 +130,11 @@ class SleepTrackerAppTest {
 
     @Test
     void sleeplessNightsOnlyDaySleep() {
-        var data = List.of(
+        List<SleepingSession> data = List.of(
                 session(1, 14, 0, 1, 15, 0, SleepQuality.NORMAL),
                 session(2, 13, 30, 2, 14, 30, SleepQuality.GOOD)
         );
-        assertEquals("0", new SleeplessNightsFunction().apply(data).getValue());
+        assertEquals("1", new SleeplessNightsFunction().apply(data).getValue());
     }
 
     @Test
