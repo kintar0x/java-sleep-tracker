@@ -15,11 +15,7 @@ class SleepTrackerAppTest {
 
     private List<SleepingSession> loadData() {
         try {
-            return SleepingSession.fromLines(
-                    Files.readAllLines(Paths.get(
-                            "C:/Users/rtgbh/IdeaProjects/java-sleep-tracker/src/main/resources/sleep_log.txt"
-                    ))
-            );
+            return SleepingSession.fromLines(Files.readAllLines(Paths.get("src/main/resources/sleep_log.txt")));
         } catch (IOException e) {
             throw new RuntimeException("Ошибка загрузки файла: " + e.getMessage());
         }

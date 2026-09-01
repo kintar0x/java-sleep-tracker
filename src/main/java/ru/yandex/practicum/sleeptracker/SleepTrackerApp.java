@@ -20,8 +20,7 @@ public class SleepTrackerApp {
 
     public static void main(String[] args) {
         try {
-            String path = "C:/Users/rtgbh/IdeaProjects/java-sleep-tracker/src/main/resources/sleep_log.txt";
-            List<String> lines = Files.readAllLines(Paths.get(path));
+            List<String> lines = Files.readAllLines(Paths.get("src/main/resources/sleep_log.txt"));
 
             List<SleepingSession> sessions = SleepingSession.fromLines(lines);
             if (sessions.isEmpty()) {
