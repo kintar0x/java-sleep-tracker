@@ -19,14 +19,23 @@ public class SleepTrackerApp {
     );
 
     public static void main(String[] args) {
+        if (args.length == 0) {
+            System.out.println("Ошибка: не указан путь к файлу с логом сна.");
+            return;
+        }
+
+        String filePath = args[0];
+
         try {
-            List<String> lines = Files.readAllLines(Paths.get("src/main/resources/sleep_log.txt"));
+            List<String> lines = Files.readAllLines(Paths.get(filePath));
 
             List<SleepingSession> sessions = SleepingSession.fromLines(lines);
             if (sessions.isEmpty()) {
                 System.out.println("Записи данных о сне отсутствуют.");
                 return;
             }
+
+            System.out.println("=== АНАЛИЗ СНА ===\n");
 
             ANALYTICS_FUNCTIONS.stream()
                     .map(f -> f.apply(sessions))
@@ -38,6 +47,8 @@ public class SleepTrackerApp {
             System.out.println("Ошибка формата даты в файле: " + e.getMessage());
         } catch (IllegalArgumentException e) {
             System.out.println("Ошибка: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Неизвестная ошибка: " + e.getMessage());
         }
     }
 }

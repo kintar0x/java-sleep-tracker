@@ -107,6 +107,20 @@ class SleepTrackerAppTest {
         assertEquals("Нет данных", new UserClassificationFunction().apply(List.of()).getValue());
     }
 
+    @Test
+    void chronotypeTieShouldReturnPigeon() {
+        List<SleepingSession> data = List.of(
+                //Совы
+                session(1, 23, 30, 2, 9, 30, SleepQuality.GOOD),
+                session(2, 23, 45, 3, 10, 0, SleepQuality.GOOD),
+                // Жаворонки
+                session(4, 21, 0, 5, 6, 30, SleepQuality.GOOD),
+                session(5, 21, 30, 6, 6, 0, SleepQuality.GOOD)
+        );
+        UserClassificationFunction func = new UserClassificationFunction();
+        SleepAnalysisResult result = func.apply(data);
+        assertEquals("Голубь", result.getValue());
+    }
     // ======================================================================
     // 7. SleeplessNightsFunction
     // ======================================================================
@@ -136,5 +150,39 @@ class SleepTrackerAppTest {
     @Test
     void sleeplessNightsEmpty() {
         assertEquals("Нет данных", new SleeplessNightsFunction().apply(List.of()).getValue());
+    }
+
+    @Test
+    void sleeplessNightsFirstSessionAfterMidnight() {
+        List<SleepingSession> data = List.of(
+                session(1, 2, 0, 1, 5, 0, SleepQuality.GOOD),
+                session(2, 23, 0, 3, 7, 0, SleepQuality.GOOD)
+        );
+        SleeplessNightsFunction func = new SleeplessNightsFunction();
+        SleepAnalysisResult result = func.apply(data);
+        assertEquals("1", result.getValue());
+    }
+
+    @Test
+    void sleeplessNightsCrossMonthAllGood() {
+        SleepingSession s1 = new SleepingSession(
+                LocalDateTime.of(2025, Month.OCTOBER, 30, 23, 0),
+                LocalDateTime.of(2025, Month.OCTOBER, 31, 7, 0),
+                SleepQuality.GOOD
+        );
+        SleepingSession s2 = new SleepingSession(
+                LocalDateTime.of(2025, Month.OCTOBER, 31, 23, 0),
+                LocalDateTime.of(2025, Month.NOVEMBER, 1, 7, 0),
+                SleepQuality.GOOD
+        );
+        SleepingSession s3 = new SleepingSession(
+                LocalDateTime.of(2025, Month.NOVEMBER, 1, 23, 0),
+                LocalDateTime.of(2025, Month.NOVEMBER, 2, 7, 0),
+                SleepQuality.GOOD
+        );
+        List<SleepingSession> data = List.of(s1, s2, s3);
+        SleeplessNightsFunction func = new SleeplessNightsFunction();
+        SleepAnalysisResult result = func.apply(data);
+        assertEquals("0", result.getValue());
     }
 }
