@@ -121,6 +121,7 @@ class SleepTrackerAppTest {
         SleepAnalysisResult result = func.apply(data);
         assertEquals("Голубь", result.getValue());
     }
+
     // ======================================================================
     // 7. SleeplessNightsFunction
     // ======================================================================
